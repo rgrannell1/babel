@@ -4,6 +4,9 @@ from random import sample
 from functools import reduce
 from operator import add
 
+# -- my python foo is lacking, so please don't be offended by my code...
+
+# -- semantic selectors
 def firstOf (coll):
 	return coll[0]
 
@@ -12,7 +15,6 @@ def secondOf (coll):
 
 def thirdOf (coll):
 	return coll[2]
-
 
 class BabelCommand( sublime_plugin.WindowCommand ):
 	def run( self ):
@@ -25,11 +27,11 @@ class BabelCommand( sublime_plugin.WindowCommand ):
 
 			contents = list(os.walk(folder))[0]
 
-			files = [contents[0] + '/' + f for f in contents[2]]
+			files = [firstOf(contents) + '/' + f for f in contents[2]]
 
-			return(sample(files, 1)[0])
+			return(firstOf(sample(files, 1)))
 
 		chosen_files = [get_random_file(folder) for folder in open_folders]
-		chosen_file  = sample(chosen_files, 1)[0]
+		chosen_file  = firstOf(sample(chosen_files, 1))
 
 		self.window.open_file(chosen_file, sublime.TRANSIENT)
