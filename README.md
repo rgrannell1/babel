@@ -5,7 +5,7 @@ Babel
 
 > - Jorge Luis Borges, The Library of Babel
 
-Babel is a sublime text plugin to help you cope with thy enormous library. More specifically, it opens a file at random from your 
+Babel is a sublime text plugin to help you cope with thy enormous library. More specifically, it opens a file at random from your
 project directory.
 
 Why?
@@ -17,7 +17,20 @@ Why?
 
 ### Installation
 
+#### Linux
 
+```bash
+cd ~/.config/sublime-text-3/Packages
+git clone https://github.com/rgrannell1/Babel.git
+```
+
+To upgrade run
+
+```bash
+cd ~/.config/sublime-text-3/Packages
+rm -rf arrow-snippets
+git clone https://github.com/rgrannell1/Babel.git
+```
 
 ### License
 

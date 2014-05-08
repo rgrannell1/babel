@@ -7,6 +7,26 @@ from operator import add
 
 # -- my python foo is lacking, so please don't be offended by my code...
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # -- semantic selectors
 def firstOf (coll):
 	return coll[0]
@@ -62,4 +82,3 @@ class BabelCommand( sublime_plugin.WindowCommand ):
 		chosen_file  = firstOf(sample(chosen_files, 1))
 
 		open_file(chosen_file)
-
