@@ -1,5 +1,7 @@
 [
 	{
-		"keys": ["ctrl+alt+b"], "command": "babel"
+		"keys": ["ctrl+b"], "command": "babel"
 	}
 ]
+
+
