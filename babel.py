@@ -1,6 +1,8 @@
 
 import sublime, sublime_plugin, os, random
 from random import sample
+from ntpath import basename
+
 
 # -- my python foo is lacking, so please don't be offended by my code...
 
@@ -13,6 +15,18 @@ class BabelCommand (sublime_plugin.WindowCommand):
 		def ignored (filename):
 			# -- replace this with a proper ignore file.
 			return filename == ".git"
+
+		def currently_open (filename):
+			return True
+
+
+		open_files = [ view.file_name() for view in window.views() if not ignored( basename(view.file_name()) )]
+
+
+
+
+
+
 
 		open_folders = window.folders()
 
@@ -32,6 +46,8 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 		unopened_candidates = [f for f in candidate_files if not currently_open(f)]
 
+
+
 		# -- try open an unopened file.
 		if len(unopened_candidates) > 0:
 			list(sample(unopened_candidates, 1))[0]
@@ -43,7 +59,6 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 		# -- open an overwritable new tab, so you can flick between files quickly.
 		window.open_file(chosen_file, sublime.TRANSIENT)
-
 
 
 
