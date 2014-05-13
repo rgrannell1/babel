@@ -1,5 +1,5 @@
 [
 	{
-		"keys": ["shift+i"], "command": "babel"
+		"keys": ["ctrl+shift+g"], "command": "babel"
 	}
 ]

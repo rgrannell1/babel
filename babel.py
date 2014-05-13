@@ -24,10 +24,6 @@ def rsample (iter):
 
 	return selected
 
-def valid_files (folder):
-	# -- yield every non-ignored file in a folder.
-
-
 
 
 
@@ -36,7 +32,8 @@ def valid_files (folder):
 
 
 class BabelCommand (sublime_plugin.WindowCommand):
-	"""babel loads a random file from your
+	"""
+	babel loads a random file from your
 	currently open folders.
 	"""
 

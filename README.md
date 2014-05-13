@@ -28,7 +28,7 @@ To upgrade run
 
 ```bash
 cd ~/.config/sublime-text-3/Packages
-rm -rf arrow-snippets
+rm -rf Babel
 git clone https://github.com/rgrannell1/Babel.git
 ```
 
@@ -43,7 +43,7 @@ To upgrade run
 
 ```bash
 cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages
-rm -rf arrow-snippets
+rm -rf Babel
 git clone https://github.com/rgrannell1/Babel.git
 ```
 
