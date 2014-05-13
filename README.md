@@ -56,8 +56,7 @@ git clone https://github.com/rgrannell1/Babel.git
 
 ### Shortcuts
 
-* Jump to next random file: <kbd>Shift+i</kbd>
-* Jump to last random file: <kbd>Shift+o</kbd>
+* Jump to next random file: <kbd>Ctrl+Shift+g</kbd>
 
 ### License
 
