@@ -17,7 +17,7 @@ Why?
 
 ### Installation
 
-#### Linux
+#### Ubuntu / Linux
 
 ```bash
 cd ~/.config/sublime-text-3/Packages
@@ -31,6 +31,33 @@ cd ~/.config/sublime-text-3/Packages
 rm -rf arrow-snippets
 git clone https://github.com/rgrannell1/Babel.git
 ```
+
+#### OSX
+
+```bash
+cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages
+git clone https://github.com/rgrannell1/Babel.git
+```
+
+To upgrade run
+
+```bash
+cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages
+rm -rf arrow-snippets
+git clone https://github.com/rgrannell1/Babel.git
+```
+
+#### Windows
+
+```bash
+cd "%AppData%\Sublime Text 3\Packages\User"
+git clone https://github.com/rgrannell1/Babel.git
+```
+
+### Shortcuts
+
+Jump to next random file: <kbd>Shift+i</kbd>
+Jump to last random file: <kbd>Shift+o</kbd>
 
 ### License
 

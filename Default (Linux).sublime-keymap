@@ -1,7 +1,5 @@
 [
 	{
-		"keys": ["ctrl+b"], "command": "babel"
+		"keys": ["shift+i"], "command": "babel"
 	}
 ]
-
-

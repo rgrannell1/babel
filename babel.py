@@ -3,14 +3,47 @@ import sublime, sublime_plugin, os, random
 from random import sample
 from ntpath import basename
 
+# -- utility functions
 
-# -- my python foo is lacking, so please don't be offended by my code...
+def recurwalk (folder):
+	# -- generate a flat list of directories in 
+
+	for path, dirs, files in os.walk(folder):
+		if '.git' in dirs:
+			# -- replace this with a proper .ignore / reject!
+			dirs.remove('.git')
+		for file in files:
+			yield os.path.join(path, file)
+
+def rsample (iter):
+	# -- use reservoir sampling to avoid loading the folder in memory.
+
+	for ith, elem in enumerate(iter, 1):
+		if random.randrange(ith) == 0:
+			selected = elem
+
+	return selected
+
+def valid_files (folder):
+	# -- yield every non-ignored file in a folder.
+
+
+
+
+
+
+
+
 
 class BabelCommand (sublime_plugin.WindowCommand):
+	"""babel loads a random file from your
+	currently open folders.
+	"""
 
 	def run (self):
 
-		window = self.window
+		excluded_dirs  = {'.git'}
+		excluded_files = {} 
 
 		def currently_open (filename):
 			# -- is the file currently open?.
@@ -21,42 +54,18 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 			return filename in open_files
 
+		window = self.window
 		open_folders = window.folders()
-
-		def recurwalk (folder):
-			# -- generate a flat list of directories in 
-
-			for path, dirs, files in os.walk(folder):
-				if '.git' in dirs:
-					# -- replace this with a proper .ignore / reject!
-					dirs.remove('.git')
-				for file in files:
-					yield os.path.join(path, file)
-
-		def reservoir_sample (iter):
-			# -- use reservoir sampling to avoid loading the folder in memory.
-
-			for ith, elem in enumerate(iter, 1):
-				if random.randrange(ith) == 0:
-					selected = elem
-
-			return selected
 
 		candidate_files = []
 
 		for folder in open_folders:
 			valid_files = recurwalk(folder)
-			file = reservoir_sample(valid_files)
+			file = rsample(valid_files)
 			
-			candidate_files.extend(file)		
+			candidate_files.extend([file])
 
-		unopened_candidates = [f for f in candidate_files if not currently_open(f)]
-
-		# -- try open an unopened file.
-		if len(unopened_candidates) > 0:
-			chosen_file = list(sample(unopened_candidates, 1))[0]
-		else:
-			chosen_file = list(sample(candidate_files, 1))[0]
+		chosen_file = rsample(candidate_files)
 
 		# -- open an overwritable new tab, 
 		# -- so you can flick between files quickly.
