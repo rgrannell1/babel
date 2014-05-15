@@ -6,7 +6,7 @@ Babel
 > - Jorge Luis Borges, The Library of Babel
 
 Babel is a sublime text plugin to help you cope with thy enormous library. More specifically, it opens a file at random from your
-project directory.
+open folders.
 
 Why?
 
