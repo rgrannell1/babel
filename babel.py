@@ -6,16 +6,18 @@ import re
 
 # -- utility functions
 
-def recurwalk (folder):
+def recurwalk (folder, ignored_dirs, ignored_files):
 	"""generate a flat list of directories in
 	"""
 
-	excluded_dirs  = {'.git'}
+	print(ignored_dirs)
 
 	for path, dirs, files in os.walk(folder):
-		if '.git' in dirs:
-			# -- replace this with a proper .ignore / reject!
-			dirs.remove('.git')
+		# -- filter out ignored directories.
+		for dir in dirs:
+			if dir + '/' in ignored_dirs:
+				dirs.remove(dir)
+
 		for file in files:
 			yield os.path.join(path, file)
 
@@ -71,11 +73,14 @@ def read_babelignore (folder):
 
 		lines = contents.split('\n')
 
-		# -- mimic the .gitignore format
-
-
 		# -- remove the empty lines
-		non_empty = (l for l in lines if not re.search(whitespace_line, l))
+		patterns = [l for l in lines if not re.search(whitespace_line, l)]
+
+		dirs     = [d for d in patterns if re.search(is_directory, d)]
+		files    = [f for f in patterns if not re.search(is_directory, f)]
+
+		return [dirs, files]
+
 
 
 
@@ -110,9 +115,9 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 		for folder in open_folders:
 
-			read_babelignore(folder)
+			ignored = read_babelignore(folder)
 
-			valid_files = recurwalk(folder)
+			valid_files = recurwalk(folder, ignored[0], ignored[1])
 			file = rsample(valid_files)
 
 			candidate_files.extend([file])
