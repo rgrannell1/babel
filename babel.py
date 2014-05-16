@@ -6,7 +6,10 @@ from ntpath import basename
 # -- utility functions
 
 def recurwalk (folder):
-	# -- generate a flat list of directories in 
+	"""generate a flat list of directories in
+	"""
+
+	excluded_dirs  = {'.git'}
 
 	for path, dirs, files in os.walk(folder):
 		if '.git' in dirs:
@@ -16,7 +19,8 @@ def recurwalk (folder):
 			yield os.path.join(path, file)
 
 def rsample (iter):
-	# -- use reservoir sampling to avoid loading the folder in memory.
+	"""use reservoir sampling to avoid loading the folder in memory.
+	"""
 
 	for ith, elem in enumerate(iter, 1):
 		if random.randrange(ith) == 0:
@@ -24,10 +28,21 @@ def rsample (iter):
 
 	return selected
 
+def read_babelignore (folder):
+	"""parse the .babelignore file
+	"""
 
+	file = os.path.join(folder, '.babelignore')
 
+	try:
+		conn = open(file, 'r')
+	except IOError:
+		print("cannot open ", file, ": probably does not exist.")
+	else:
+		contents = conn.read()
+		conn.close()
 
-
+		lines = contents.split('/n')
 
 
 
@@ -39,9 +54,6 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 	def run (self):
 
-		excluded_dirs  = {'.git'}
-		excluded_files = {} 
-
 		def currently_open (filename):
 			# -- is the file currently open?.
 
@@ -50,6 +62,7 @@ class BabelCommand (sublime_plugin.WindowCommand):
 			open_files = {view.file_name() for view in views}
 
 			return filename in open_files
+		excluded_files = {}
 
 		window = self.window
 		open_folders = window.folders()
@@ -57,13 +70,16 @@ class BabelCommand (sublime_plugin.WindowCommand):
 		candidate_files = []
 
 		for folder in open_folders:
+
+			read_babelignore(folder)
+
 			valid_files = recurwalk(folder)
 			file = rsample(valid_files)
-			
+
 			candidate_files.extend([file])
 
 		chosen_file = rsample(candidate_files)
 
-		# -- open an overwritable new tab, 
+		# -- open an overwritable new tab,
 		# -- so you can flick between files quickly.
 		window.open_file(chosen_file, sublime.TRANSIENT)
