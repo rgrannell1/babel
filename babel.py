@@ -2,6 +2,7 @@
 import sublime, sublime_plugin, os, random
 from random import sample
 from ntpath import basename
+import re
 
 # -- utility functions
 
@@ -18,6 +19,16 @@ def recurwalk (folder):
 		for file in files:
 			yield os.path.join(path, file)
 
+
+
+
+
+
+
+
+
+
+
 def rsample (iter):
 	"""use reservoir sampling to avoid loading the folder in memory.
 	"""
@@ -28,8 +39,20 @@ def rsample (iter):
 
 	return selected
 
+
+
+
+
+
+
+
+
+
+
 def read_babelignore (folder):
 	"""parse the .babelignore file
+
+	Each line specifies a pattern
 	"""
 
 	file = os.path.join(folder, '.babelignore')
@@ -37,12 +60,28 @@ def read_babelignore (folder):
 	try:
 		conn = open(file, 'r')
 	except IOError:
-		print("cannot open ", file, ": probably does not exist.")
+		print("cannot open ", file, ": file probably does not exist.")
 	else:
 		contents = conn.read()
 		conn.close()
 
-		lines = contents.split('/n')
+		# -- get directories.
+		whitespace_line = "^\s*$"
+		is_directory = "[/]$"
+
+		lines = contents.split('\n')
+
+		# -- mimic the .gitignore format
+
+
+		# -- remove the empty lines
+		non_empty = (l for l in lines if not re.search(whitespace_line, l))
+
+
+
+
+
+
 
 
 
