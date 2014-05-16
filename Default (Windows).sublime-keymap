@@ -1,2 +1,5 @@
-
-
+[
+	{
+		"keys": ["ctrl+shift+g"], "command": "babel"
+	}
+]

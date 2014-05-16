@@ -15,9 +15,9 @@ Why?
 * **3**: Choosing random files will make you work on your favourite and not-so-favourite features.
 * **4**: Reading large volumes of code is fruit for existential revelations. [1]
 
-### Installation
+## Installation
 
-#### Ubuntu / Linux
+### Ubuntu / Linux
 
 ```bash
 cd ~/.config/sublime-text-3/Packages
@@ -32,7 +32,7 @@ rm -rf Babel
 git clone https://github.com/rgrannell1/Babel.git
 ```
 
-#### OSX
+### OSX
 
 ```bash
 cd ~/Library/Application\ Support/Sublime\ Text\ 2/Packages
@@ -47,18 +47,18 @@ rm -rf Babel
 git clone https://github.com/rgrannell1/Babel.git
 ```
 
-#### Windows
+### Windows
 
 ```bash
 cd "%AppData%\Sublime Text 3\Packages\User"
 git clone https://github.com/rgrannell1/Babel.git
 ```
 
-### Shortcuts
+## Shortcuts
 
 * Jump to next random file: <kbd>Ctrl+Shift+g</kbd>
 
-### License
+## License
 
 Babel is released under the MIT licence.
 
@@ -84,7 +84,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-### Versioning
+## Versioning
 
 All versions post-release will be compliant with the Semantic Versioning 2.0.0 standard.
 
