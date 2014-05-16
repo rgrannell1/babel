@@ -6,7 +6,7 @@ Babel
 > - Jorge Luis Borges, The Library of Babel
 
 Babel is a sublime text plugin to help you cope with thy enormous library. More specifically, it opens a file at random from your
-project directory.
+open folders.
 
 Why?
 
@@ -56,8 +56,7 @@ git clone https://github.com/rgrannell1/Babel.git
 
 ### Shortcuts
 
-* Jump to next random file: <kbd>Shift+i</kbd>
-* Jump to last random file: <kbd>Shift+o</kbd>
+* Jump to next random file: <kbd>Ctrl+Shift+g</kbd>
 
 ### License
 
