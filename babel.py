@@ -6,14 +6,14 @@ import re
 
 # -- utility functions
 
-def recurwalk (folder, ignored_dirs, ignored_files):
+def recurwalk (folder, ignored_dir, ignored_file):
 	"""generate a flat list of directories in
 	"""
 
 	for path, dirs, files in os.walk(folder):
 		# -- filter out ignored directories.
 		for dir in dirs:
-			if dir + '/' in ignored_dirs:
+			if not ignored_dir(dir):
 				dirs.remove(dir)
 
 		for file in files:
@@ -50,10 +50,6 @@ def rsample (iter):
 
 
 def read_babelignore (folder):
-	"""parse the .babelignore file
-
-	Each line specifies a pattern
-	"""
 
 	file = os.path.join(folder, '.babelignore')
 
@@ -61,7 +57,7 @@ def read_babelignore (folder):
 		conn = open(file, 'r')
 	except IOError:
 		# -- don't print. This happens all the time.
-		pass
+		return [lambda dir: False, lambda file: False]
 	else:
 		contents = conn.read()
 		conn.close()
@@ -78,8 +74,31 @@ def read_babelignore (folder):
 		dirs     = [d for d in patterns if re.search(is_directory, d)]
 		files    = [f for f in patterns if not re.search(is_directory, f)]
 
-		return [dirs, files]
+		# -- lexically close over the dirs and files,
+		# -- create testing functions.
 
+		#
+		def ignored_dir (dir):
+
+			for igdir in dirs:
+
+				# -- replace all asterices with .+
+				dir_pattern = dir.replace('[*]', '.+') + '/'
+
+				if re.search(dir_pattern, igdir):
+-					return True
+
+			return False
+
+		#
+		def ignored_file (file):
+			for igfile in files:
+				if dir == igfile:
+					return True
+
+			return False
+
+		return [ignored_dir, ignored_file]
 
 
 
