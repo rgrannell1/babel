@@ -17,7 +17,17 @@ Why?
 
 ## Installation
 
-### Ubuntu / Linux
+You can install Babel in several ways. The easiest is by installing [Sublime Package Manager](https://sublime.wbond.net/installation)
+and then:
+
+* 1, Press <kbd>Ctrl + Shift + p</kbd>, and navigate to 'add repository'
+* 2, Drop the URL for this package - https://github.com/rgrannell1/babel - into the text field.
+* 3, Now press <kbd>Ctrl + Shift + p</kbd>, navigate to 'install package', and type 'babel'.
+
+Using this method is preferable as you will automatically recieve updates. These
+followind methods will also work if you don't use Sublime Package Manager.
+
+#### Ubuntu / Linux
 
 ```bash
 cd ~/.config/sublime-text-3/Packages
