@@ -10,8 +10,6 @@ def recurwalk (folder, ignored_dirs, ignored_files):
 	"""generate a flat list of directories in
 	"""
 
-	print(ignored_dirs)
-
 	for path, dirs, files in os.walk(folder):
 		# -- filter out ignored directories.
 		for dir in dirs:
@@ -62,7 +60,8 @@ def read_babelignore (folder):
 	try:
 		conn = open(file, 'r')
 	except IOError:
-		print("cannot open ", file, ": file probably does not exist.")
+		# -- don't print. This happens all the time.
+		pass
 	else:
 		contents = conn.read()
 		conn.close()
