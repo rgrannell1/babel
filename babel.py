@@ -134,14 +134,13 @@ def parse_babelignore (contents):
 	or folder is ignored or not.
 	"""
 
-	# -- get directories.
-	whitespace_line = "^\s*$"
+	is_formatting = "^\s*$|^\s*[#]$"
 	is_directory    = "[/]$"
 
 	lines = contents.split('\n')
 
 	# -- remove the empty lines
-	patterns = [l for l in lines if not re.search(whitespace_line, l)]
+	patterns = [l for l in lines if not re.search(is_formatting, l)]
 
 	dirs     = [d for d in patterns if re.search(is_directory, d)]
 	files    = [f for f in patterns if not re.search(is_directory, f)]
@@ -161,8 +160,6 @@ def parse_babelignore (contents):
 
 		if dir + '/' in versioning and options['ignore_version_control']:
 			return False
-
-
 
 		for igdir in dirs:
 
