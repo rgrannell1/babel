@@ -10,13 +10,11 @@ __authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 is_python3 = sys.version_info[0] > 2
 
-# -- default options.
+# -- default options. Find way to load in custom options.
 
 options = {
 	'ignore_version_control': True
 }
-
-
 
 
 
@@ -77,6 +75,24 @@ def rsample (iter):
 
 
 
+def chain (*iters):
+	"""
+	join iterators together end to end.
+	"""
+
+	for iter in iters:
+		for elem in iter:
+			yield elem
+
+
+
+
+
+
+
+
+
+
 def read_babelignore (folder):
 	"""
 	try to read the .babelignore folder
@@ -112,6 +128,11 @@ def read_babelignore (folder):
 
 
 def parse_babelignore (contents):
+	"""
+	given the contents of a .babelignore file
+	return functions that dictate whether a file
+	or folder is ignored or not.
+	"""
 
 	# -- get directories.
 	whitespace_line = "^\s*$"
@@ -129,14 +150,22 @@ def parse_babelignore (contents):
 	# -- create testing functions.
 
 	def valid_dir (dir):
+		"""
+		is the dir not-ignored?
+		"""
 
 		# -- match the whole sentence; replace asterices with regex wildcards.
 		dir_pattern = '^' + dir.replace('[*]', '.+') + '/' + '$'
 
+		versioning = {'.git/', '.hg/'}
+
+		if dir + '/' in versioning and options['ignore_version_control']:
+			return False
+
+
+
 		for igdir in dirs:
 
-			if dir + '/' == '.git/' and options['ignore_version_control']:
-				return False
 			if re.search(dir_pattern, igdir):
 				return False
 
@@ -144,6 +173,9 @@ def parse_babelignore (contents):
 		return True
 
 	def valid_file (file):
+		"""
+		is the file not-ignored?
+		"""
 
 		# -- match the whole sentence; replace asterices with regex wildcards.
 		file_pattern = '^' + file.replace('[*]', '.+') + '/' + '$'
@@ -191,15 +223,6 @@ class BabelCommand (sublime_plugin.WindowCommand):
 			for file in files:
 				if not file in open_files:
 					yield file
-
-		def chain (*iters):
-			"""
-			join iterators together end to end.
-			"""
-
-			for iter in iters:
-				for elem in iter:
-					yield elem
 
 		def project_files (open_folders):
 			"""
