@@ -5,6 +5,26 @@ import sublime_plugin
 import random
 import re
 
+__version__ = '0.1.0'
+__authors__ = ['Ryan Grannell (@RyanGrannell)']
+
+is_python3 = sys.version_info[0] > 2
+
+# -- default options.
+
+options = {
+	'ignore_version_control': True
+}
+
+
+
+
+
+
+
+
+
+
 # -- utility functions
 
 def recurwalk (folder, valid_dir, valid_file):
@@ -115,8 +135,11 @@ def parse_babelignore (contents):
 
 		for igdir in dirs:
 
+			if dir + '/' == '.git/' and options['ignore_version_control']:
+				return False
 			if re.search(dir_pattern, igdir):
 				return False
+
 
 		return True
 
