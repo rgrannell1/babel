@@ -15,6 +15,8 @@ Why?
 * **3**: Choosing random files will make you work on your favourite and not-so-favourite features.
 * **4**: Reading large volumes of code is fruit for existential revelations. [1]
 
+<img src="babel.gif"> </img>
+
 ## Installation
 
 You can install Babel in several ways. The easiest is by installing [Sublime Package Manager](https://sublime.wbond.net/installation)
