@@ -6,14 +6,14 @@ import re
 
 # -- utility functions
 
-def recurwalk (folder, ignored_dir, ignored_file):
+def recurwalk (folder, valid_dir, valid_file):
 	"""generate a flat list of directories in
 	"""
 
 	for path, dirs, files in os.walk(folder):
 		# -- filter out ignored directories.
 		for dir in dirs:
-			if not ignored_dir(dir):
+			if not valid_dir(dir):
 				dirs.remove(dir)
 
 		for file in files:
@@ -78,7 +78,7 @@ def read_babelignore (folder):
 		# -- create testing functions.
 
 		#
-		def ignored_dir (dir):
+		def valid_dir (dir):
 
 			for igdir in dirs:
 
@@ -86,19 +86,19 @@ def read_babelignore (folder):
 				dir_pattern = dir.replace('[*]', '.+') + '/'
 
 				if re.search(dir_pattern, igdir):
--					return True
+					return False
 
-			return False
+			return True
 
 		#
-		def ignored_file (file):
+		def valid_file (file):
 			for igfile in files:
 				if dir == igfile:
-					return True
+					return False
 
-			return False
+			return True
 
-		return [ignored_dir, ignored_file]
+		return [valid_dir, valid_file]
 
 
 
