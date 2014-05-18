@@ -4,6 +4,7 @@ import sublime
 import sublime_plugin
 import random
 import re
+import sys
 
 __version__ = '0.1.0'
 __authors__ = ['Ryan Grannell (@RyanGrannell)']
@@ -107,9 +108,21 @@ def read_babelignore (folder):
 	except IOError:
 		# -- don't print. This happens all the time.
 
+		def valid_dir (dir):
+
+			versioning = {'.git/', '.hg/'}
+
+			if dir + '/' in versioning and options['ignore_version_control']:
+				return False
+			else:
+				return True
+
+		def valid_file (file):
+			return True
+
 		return {
-			'dir':  lambda dir:  True,
-			'file': lambda file: True
+			'dir':  valid_dir,
+			'file': valid_file
 		}
 
 	else:
@@ -135,7 +148,7 @@ def parse_babelignore (contents):
 	"""
 
 	is_formatting = "^\s*$|^\s*[#]$"
-	is_directory    = "[/]$"
+	is_directory  = "[/]$"
 
 	lines = contents.split('\n')
 
@@ -165,7 +178,6 @@ def parse_babelignore (contents):
 
 			if re.search(dir_pattern, igdir):
 				return False
-
 
 		return True
 
