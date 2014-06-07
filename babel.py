@@ -139,7 +139,6 @@ def read_babelignore (folder):
 
 
 
-
 def parse_babelignore (contents):
 	"""
 	given the contents of a .babelignore file
