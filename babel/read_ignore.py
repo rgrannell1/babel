@@ -6,26 +6,103 @@ import random
 import re
 import sys
 
+
+
+
+
+
+
+
+
+
 """
-read_babelignore
+read_ignore
 
+read the .babelignore file in a folder, if one exists.
 
+@param dir a string. The dir to check for a .babelignore file.
 
-
+@return a string. The contents of the babelignore file. Returns the
+        empty string if no file was found.
 
 """
 
-def read_babelignore (folder):
+def read_ignore (dir):
 
-	fpath = os.path.join(folder, '.babelignore')
+	dpath = os.path.join(dir, '.babelignore')
 
 	try:
-
-		conn = open(fpath, 'r')
-
+		conn = open(dpath, 'r')
 	except IOError:
-		# -- the file wasn't found or couldn't be read, so
-		# -- create default file/dir filtering functions.
+		# -- the .babelignore most likely wasn't found.
+		""
+	else:
+		fcontents = conn.read()
+		conn.close()
+
+		return fcontents
+
+
+
+
+
+
+
+
+
+
+
+"""
+parse_ignore
+
+@param contents a string. The raw text from a .babelignore file.
+
+@return a dictionary with two fields: dir & file. dir is a unary
+        predicate that tests if a directory should be recurred into.
+        file is a unary predicate that tests if a file should be
+        yielded.
+"""
+
+def parse_ignore (contents):
+
+	empty_regexp   = '^$'
+	comment_regexp = '[ 	]*#.*$'
+
+	def patterns (contents):
+
+		for line in contents.split('\n'):
+			if not re.search(empty_regexp + '|' + comment_regexp, line):
+				yield line
+
+
+
+
+
+
+
+
+
+
+"""
+ignored_paths
+
+return predicates that filter paths and files.
+
+@param dir a string. The dir to check for a .babelignore file.
+
+@return a dictionary with two fields: dir & file. dir is a unary
+        predicate that tests if a directory should be recurred into.
+        file is a unary predicate that tests if a file should be
+        yielded.
+"""
+
+def ignored_paths (dir):
+
+	fcontents = read_ignore(dir)
+
+	if fcontents:
+		parse_ignore(contents)
+	else:
 
 		def valid_dir (dpath):
 
@@ -42,39 +119,3 @@ def read_babelignore (folder):
 			'dir' : valid_dir,
 			'file': valid_file
 		}
-
-	else:
-
-		contents = conn.read()
-		conn.close()
-
-		return parse_babelignore(fcontents)
-
-
-
-
-
-
-
-
-
-
-
-"""
-parse_babelignore
-
-
-
-
-"""
-
-def parse_babelignore (contents):
-
-	empty_regexp   = '^$'
-	comment_regexp = '[ 	]*#.*$'
-
-	def patterns (contents):
-
-		for line in contents.split('\n'):
-			if not re.search(empty_regexp + '|' + comment_regexp, line):
-				yield line

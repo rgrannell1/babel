@@ -7,8 +7,8 @@ import random
 import re
 import sys
 
-import babel.flotsam
-import babel.read_ignore
+from babel.flotsam     import recurwalk, rsample, chain
+from babel.read_ignore import read_babelignore, parse_babelignore
 
 print('babel loaded.')
 
@@ -60,6 +60,8 @@ class BabelCommand (sublime_plugin.WindowCommand):
 	"""
 
 	def run (self):
+
+		print('running')
 
 		window = self.window
 		open_folders = window.folders()
