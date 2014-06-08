@@ -1,11 +1,21 @@
 
 import os
+import sublime
+import sublime_plugin
+import random
+import re
 import sys
 
-def read_babelignore (folder):
-	"""
+"""
+read_babelignore
 
-	"""
+
+
+
+
+"""
+
+def read_babelignore (folder):
 
 	fpath = os.path.join(folder, '.babelignore')
 
@@ -40,18 +50,31 @@ def read_babelignore (folder):
 
 		return parse_babelignore(fcontents)
 
+
+
+
+
+
+
+
+
+
+
+"""
+parse_babelignore
+
+
+
+
+"""
+
 def parse_babelignore (contents):
-	"""
-	the .babelignore file
-	"""
 
 	empty_regexp   = '^$'
 	comment_regexp = '[ 	]*#.*$'
 
 	def patterns (contents):
-		"""
-		"""
+
 		for line in contents.split('\n'):
 			if not re.search(empty_regexp + '|' + comment_regexp, line):
 				yield line
-

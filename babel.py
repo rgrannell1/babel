@@ -1,3 +1,4 @@
+#! /usr/bin/env python 3
 
 import os
 import sublime
@@ -6,10 +7,35 @@ import random
 import re
 import sys
 
+import babel.flotsam
+import babel.read_ignore
+
+print('babel loaded.')
+
+
+
+
+
+
+
+
+
+
 __version__ = '0.1.0'
 __authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 is_python3 = sys.version_info[0] > 2
+
+
+
+
+
+
+
+
+
+
+
 
 # -- default options. Find way to load in custom options.
 
@@ -19,186 +45,6 @@ options = {
 
 
 
-
-
-
-
-
-# -- utility functions
-
-def recurwalk (folder, valid_dir, valid_file):
-	"""
-	generate a flat list in a non-ignored
-	files in a directory.
-	"""
-
-	for path, dirs, files in os.walk(folder):
-		# -- filter out ignored directories.
-		for dir in dirs:
-			if not valid_dir(dir):
-				dirs.remove(dir)
-
-		for file in files:
-			if valid_file(file):
-				yield os.path.join(path, file)
-
-
-
-
-
-
-
-
-
-
-
-def rsample (iter):
-	"""
-	return a random element from a generator
-	without loading the generator into memory.
-	"""
-
-	selected = None
-
-	for ith, elem in enumerate(iter, 1):
-		if random.randrange(ith) == 0:
-			selected = elem
-
-	return selected
-
-
-
-
-
-
-
-
-
-
-
-def chain (*iters):
-	"""
-	join iterators together end to end.
-	"""
-
-	for iter in iters:
-		for elem in iter:
-			yield elem
-
-
-
-
-
-
-
-
-
-
-def read_babelignore (folder):
-	"""
-	try to read the .babelignore folder
-	and if it is present return two functions
-	denoting if a file or folder is valid.
-	"""
-
-	file = os.path.join(folder, '.babelignore')
-
-	try:
-		conn = open(file, 'r')
-	except IOError:
-		# -- don't print. This happens all the time.
-
-		def valid_dir (dir):
-
-			versioning = {'.git/', '.hg/'}
-
-			if dir + '/' in versioning and options['ignore_version_control']:
-				return False
-			else:
-				return True
-
-		def valid_file (file):
-			return True
-
-		return {
-			'dir':  valid_dir,
-			'file': valid_file
-		}
-
-	else:
-		contents = conn.read()
-		conn.close()
-
-		return parse_babelignore(contents)
-
-
-
-
-
-
-
-
-
-def parse_babelignore (contents):
-	"""
-	given the contents of a .babelignore file
-	return functions that dictate whether a file
-	or folder is ignored or not.
-	"""
-
-	is_formatting = "^\s*$|^\s*[#]$"
-	is_directory  = "[/]$"
-
-	lines = contents.split('\n')
-
-	# -- remove the empty lines
-	patterns = [l for l in lines if not re.search(is_formatting, l)]
-
-	dirs     = [d for d in patterns if re.search(is_directory, d)]
-	files    = [f for f in patterns if not re.search(is_directory, f)]
-
-	# -- lexically close over 'dirs' and 'files',
-	# -- create testing functions.
-
-	def valid_dir (dir):
-		"""
-		is the dir not-ignored?
-		"""
-
-		# -- match the whole sentence; replace asterices with regex wildcards.
-		dir_pattern = '^' + dir.replace('[*]', '.+') + '/' + '$'
-
-		versioning = {'.git/', '.hg/'}
-
-		if dir + '/' in versioning and options['ignore_version_control']:
-			return False
-
-		for igdir in dirs:
-
-			if re.search(dir_pattern, igdir):
-				return False
-
-		return True
-
-	def valid_file (file):
-		"""
-		is the file not-ignored?
-		"""
-
-		# -- match the whole sentence; replace asterices with regex wildcards.
-		file_pattern = '^' + file.replace('[*]', '.+') + '/' + '$'
-
-		for igfile in files:
-
-			if re.search(file_pattern, igfile):
-				return False
-
-		return True
-
-	return {
-		'dir':  valid_dir,
-		'file': valid_file
-	}
 
 
 
