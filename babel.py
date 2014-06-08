@@ -8,7 +8,7 @@ import re
 import sys
 
 from babel.flotsam     import recurwalk, rsample, chain
-from babel.read_ignore import read_babelignore, parse_babelignore
+from babel.read_ignore import read_ignore, parse_ignore
 
 print('babel loaded.')
 
@@ -87,7 +87,7 @@ class BabelCommand (sublime_plugin.WindowCommand):
 			"""
 
 			for folder in open_folders:
-				is_valid     = read_babelignore(folder)
+				is_valid     = read_ignore(folder)
 				non_ignored  = recurwalk(folder, is_valid['dir'], is_valid['file'])
 
 				non_open     = remove_open(non_ignored)
