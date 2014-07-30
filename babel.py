@@ -1,11 +1,13 @@
+#! /usr/bin/env python 3
 
 import os
 import sublime
 import sublime_plugin
 import random
 import re
+import sys
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 is_python3 = sys.version_info[0] > 2
@@ -107,8 +109,22 @@ def read_babelignore (folder):
 	except IOError:
 		# -- don't print. This happens all the time.
 
+		def valid_dir (dir):
+			"""
+			is the dir not-ignored?
+			"""
+
+			# -- match the whole sentence; replace asterices with regex wildcards.
+
+			versioning = {'.git/', '.hg/'}
+
+			if dir + '/' in versioning and options['ignore_version_control']:
+				return False
+
+			return True
+
 		return {
-			'dir':  lambda dir:  True,
+			'dir':  valid_dir,
 			'file': lambda file: True
 		}
 
@@ -165,7 +181,6 @@ def parse_babelignore (contents):
 
 			if re.search(dir_pattern, igdir):
 				return False
-
 
 		return True
 
