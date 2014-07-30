@@ -7,7 +7,7 @@ import random
 import re
 import sys
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 is_python3 = sys.version_info[0] > 2
