@@ -15,6 +15,9 @@ Why?
 * **3**: Choosing random files will make you work on your favourite and not-so-favourite features.
 * **4**: Reading large volumes of code is fruit for existential revelations. [1]
 
+Babel is quite efficient for large libraries; on my mid-range laptop it takes about 0.2 seconds from pressing the shortcut to
+opening the file. Future versions may be more efficient, if needed.
+
 <img src="babel.gif"> </img>
 
 ## Installation
@@ -29,7 +32,7 @@ and then:
 Using this method is preferable as you will automatically recieve updates. These
 followind methods will also work if you don't use Sublime Package Manager.
 
-#### Ubuntu / Linux
+### Ubuntu / Linux
 
 ```bash
 cd ~/.config/sublime-text-3/Packages
