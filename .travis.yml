@@ -1,5 +1,0 @@
-language: python
-python:
-  - "3.3"
-# command to run tests, e.g. python setup.py test
-script: 'tests/all.py'
