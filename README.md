@@ -1,3 +1,5 @@
+<img src="icon.png" width="100">
+
 Babel v0.1.1
 ===========
 
