@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="icon.svg"
-   inkscape:export-filename="/home/ryan/Code/polonium-gui/icon.png"
+   inkscape:export-filename="/home/ryan/Code/Babel.py/icon.png"
    inkscape:export-xdpi="45"
    inkscape:export-ydpi="45">
   <defs
@@ -62,7 +62,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.1357422"
-     inkscape:cx="237.78971"
+     inkscape:cx="84.585928"
      inkscape:cy="242.77399"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -129,7 +129,7 @@
        ry="119.67741" />
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:17.78041867;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="color:#000000;fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:29.63403111;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        id="path3769"
        sodipodi:sides="3"
        sodipodi:cx="217.90807"
@@ -146,7 +146,7 @@
        inkscape:transform-center-y="-40.000001" />
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:#ac9393;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:15;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ac9393;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:25;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3788"
        sodipodi:sides="3"
        sodipodi:cx="366.70813"
@@ -164,7 +164,7 @@
        inkscape:transform-center-y="-11.517997" />
     <path
        sodipodi:type="star"
-       style="color:#000000;fill:#ac9393;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:15;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ac9393;fill-opacity:0;fill-rule:nonzero;stroke:#ffffff;stroke-width:25;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3792"
        sodipodi:sides="3"
        sodipodi:cx="140.87704"
