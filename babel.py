@@ -37,18 +37,15 @@ def recurwalk (folder, ignored_dirs, ignored_files):
 	"""
 
 	def is_valid_dir (dir):
-
-		for igdir in ignored_dirs:
-			if dir + '/' == igdir:
-				return False
-		return True
+		return not any([dir + '/' == igdir for igdir in ignored_dirs])
 
 	def is_valid_file (file):
+		return not any([re.search(igfile, file) for igfile in ignored_files])
 
-		for igfile in ignored_files:
-			if re.search(igfile, file):
-				return False
-		return True
+
+
+
+
 
 	for path, dirs, files in os.walk(folder, topdown = True):
 		# -- filter out ignored directories.
