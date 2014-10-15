@@ -1,6 +1,6 @@
 <img src="icon.png" width="100">
 
-Babel v0.2.1
+Babel v0.2.2
 ===========
 
 > “Let heaven exist, though my own place be in hell. Let me be tortured and battered and annihilated, but let there be one instant, one creature, wherein thy enormous Library may find its justification.”

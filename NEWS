@@ -1,4 +1,14 @@
 
+Babel 0.2.2
+---------------------------------------------------------------
+Date: 2014-10-15
+
+Fixed regular expression for detecting commented line in .babelignore
+files.
+
+
+
+
 Babel 0.2.1
 ---------------------------------------------------------------
 Date: 2014-10-15
