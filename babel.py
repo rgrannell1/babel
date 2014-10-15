@@ -12,7 +12,7 @@ import sys
 
 
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 # -- default options. Find way to load in custom options.
@@ -153,8 +153,8 @@ def parse_babelignore (contents):
 	return functions that dictate whether a file
 	or folder is ignored or not.
 	"""
-
-	is_formatting = "^\s*$|^\s*[#]$"
+	# -- all whitespace or a commented line.
+	is_formatting = "^\s*$" + "|" + "^\s*[#].+$"
 	is_directory  = "[/]$"
 
 	lines = contents.split('\n')
@@ -185,7 +185,7 @@ class BabelCommand (sublime_plugin.WindowCommand):
 
 	def run (self):
 
-		window = self.window
+		window       = self.window
 		open_folders = window.folders()
 
 		def remove_open (files):
