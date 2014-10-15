@@ -30,26 +30,35 @@ options = {
 
 # -- utility functions
 
-def recurwalk (folder, valid_dir, valid_file):
+def recurwalk (folder, ignored_dirs, ignored_files):
 	"""
 	generate a flat list in a non-ignored
 	files in a directory.
 	"""
 
+	def is_valid_dir (dir):
 
+		for igdir in ignored_dirs:
+			if dir + '/' == igdir:
+				return False
+		return True
+
+	def is_valid_file (file):
+
+		for igfile in ignored_files:
+			if file == igfile:
+				return False
+		return True
 
 	for path, dirs, files in os.walk(folder, topdown = True):
 		# -- filter out ignored directories.
 
 		# -- modify dirs in place.
-		dirs[:] = [dir for dir in dirs if valid_dir(dir)]
+		dirs[:] = [dir for dir in dirs if is_valid_dir(dir)]
 
 		for file in files:
 
-			print(valid_file('asdasd.o'))
-			raise Exception("asdasd")
-
-			if valid_file(file):
+			if is_valid_file(file):
 				yield os.path.join(path, file)
 
 
@@ -118,28 +127,15 @@ def read_babelignore (folder):
 	except IOError:
 		# -- no babel ignore file found.
 
-		print("no .babelignore found in " + folder)
-
-		def valid_dir (dir):
-			"""
-			is the dir not-ignored?
-			"""
-
-			# -- match the whole sentence; replace asterices with regex wildcards.
-
-			versioning = {'.git/', '.hg/'}
-
-			if (dir in versioning or dir + '/' in versioning) and options['ignore_version_control']:
-				return False
-
-			return True
+		print("NOTE: no .babelignore found in " + folder)
 
 		return {
-			'dir':  valid_dir,
-			'file': lambda file: True
+			'dir':  ['.git/', '.hg/'] if options['ignore_version_control'] else [],
+			'file': []
 		}
 
 	else:
+
 		contents = conn.read()
 		conn.close()
 
@@ -162,58 +158,19 @@ def parse_babelignore (contents):
 	"""
 
 	is_formatting = "^\s*$|^\s*[#]$"
-	is_directory    = "[/]$"
+	is_directory  = "[/]$"
 
 	lines = contents.split('\n')
 
 	# -- remove the empty lines
 	patterns = [l for l in lines if not re.search(is_formatting, l)]
 
-	igdirs     = [d for d in patterns if re.search(is_directory, d)]
-	igfiles    = [f for f in patterns if not re.search(is_directory, f)]
-
 	# -- lexically close over 'igdirs' and 'igfiles',
 	# -- create testing functions.
 
-	def valid_dir (dir):
-		"""
-		is the dir not-ignored?
-		"""
-
-		# -- match the whole sentence; replace asterices with regex wildcards.
-		dir_pattern = '^' + dir.replace('[*]', '.+') + '[/]'
-
-		versioning = {'.git/', '.hg/'}
-
-		if (dir in versioning or dir + '/' in versioning) and options['ignore_version_control']:
-			return False
-
-		for igdir in igdirs:
-
-			if re.search(dir_pattern, igdir):
-				return False
-
-		return True
-
-	def valid_file (file):
-		"""
-		is the file not-ignored?
-		"""
-
-		# -- match the whole sentence; replace asterices with regex wildcards.
-		file_pattern = '^' + file.replace('[*]', '.+') + '$'
-
-		print(igfiles)
-
-		for igfile in igfiles:
-			if re.search(file_pattern, igfile):
-				return False
-
-		return True
-
 	return {
-		'dir':  valid_dir,
-		'file': valid_file
+		'dir':  [d for d in patterns if     re.search(is_directory, d)],
+		'file': [f for f in patterns if not re.search(is_directory, f)]
 	}
 
 
@@ -255,8 +212,9 @@ class BabelCommand (sublime_plugin.WindowCommand):
 			"""
 
 			for folder in open_folders:
-				is_valid     = read_babelignore(folder)
-				non_ignored  = recurwalk(folder, is_valid['dir'], is_valid['file'])
+
+				ignored      = read_babelignore(folder)
+				non_ignored  = recurwalk(folder, ignored['dir'], ignored['file'])
 
 				non_open     = remove_open(non_ignored)
 
