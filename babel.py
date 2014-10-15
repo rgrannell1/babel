@@ -7,10 +7,13 @@ import random
 import re
 import sys
 
-__version__ = '0.1.1'
-__authors__ = ['Ryan Grannell (@RyanGrannell)']
 
-is_python3 = sys.version_info[0] > 2
+
+
+
+
+__version__ = '0.2.1'
+__authors__ = ['Ryan Grannell (@RyanGrannell)']
 
 # -- default options. Find way to load in custom options.
 
@@ -33,13 +36,19 @@ def recurwalk (folder, valid_dir, valid_file):
 	files in a directory.
 	"""
 
-	for path, dirs, files in os.walk(folder):
+
+
+	for path, dirs, files in os.walk(folder, topdown = True):
 		# -- filter out ignored directories.
-		for dir in dirs:
-			if not valid_dir(dir):
-				dirs.remove(dir)
+
+		# -- modify dirs in place.
+		dirs[:] = [dir for dir in dirs if valid_dir(dir)]
 
 		for file in files:
+
+			print(valid_file('asdasd.o'))
+			raise Exception("asdasd")
+
 			if valid_file(file):
 				yield os.path.join(path, file)
 
@@ -107,7 +116,9 @@ def read_babelignore (folder):
 	try:
 		conn = open(file, 'r')
 	except IOError:
-		# -- don't print. This happens all the time.
+		# -- no babel ignore file found.
+
+		print("no .babelignore found in " + folder)
 
 		def valid_dir (dir):
 			"""
@@ -118,7 +129,7 @@ def read_babelignore (folder):
 
 			versioning = {'.git/', '.hg/'}
 
-			if dir + '/' in versioning and options['ignore_version_control']:
+			if (dir in versioning or dir + '/' in versioning) and options['ignore_version_control']:
 				return False
 
 			return True
@@ -158,10 +169,10 @@ def parse_babelignore (contents):
 	# -- remove the empty lines
 	patterns = [l for l in lines if not re.search(is_formatting, l)]
 
-	dirs     = [d for d in patterns if re.search(is_directory, d)]
-	files    = [f for f in patterns if not re.search(is_directory, f)]
+	igdirs     = [d for d in patterns if re.search(is_directory, d)]
+	igfiles    = [f for f in patterns if not re.search(is_directory, f)]
 
-	# -- lexically close over 'dirs' and 'files',
+	# -- lexically close over 'igdirs' and 'igfiles',
 	# -- create testing functions.
 
 	def valid_dir (dir):
@@ -170,14 +181,14 @@ def parse_babelignore (contents):
 		"""
 
 		# -- match the whole sentence; replace asterices with regex wildcards.
-		dir_pattern = '^' + dir.replace('[*]', '.+') + '/' + '$'
+		dir_pattern = '^' + dir.replace('[*]', '.+') + '[/]'
 
 		versioning = {'.git/', '.hg/'}
 
-		if dir + '/' in versioning and options['ignore_version_control']:
+		if (dir in versioning or dir + '/' in versioning) and options['ignore_version_control']:
 			return False
 
-		for igdir in dirs:
+		for igdir in igdirs:
 
 			if re.search(dir_pattern, igdir):
 				return False
@@ -190,10 +201,11 @@ def parse_babelignore (contents):
 		"""
 
 		# -- match the whole sentence; replace asterices with regex wildcards.
-		file_pattern = '^' + file.replace('[*]', '.+') + '/' + '$'
+		file_pattern = '^' + file.replace('[*]', '.+') + '$'
 
-		for igfile in files:
+		print(igfiles)
 
+		for igfile in igfiles:
 			if re.search(file_pattern, igfile):
 				return False
 
