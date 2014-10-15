@@ -46,7 +46,7 @@ def recurwalk (folder, ignored_dirs, ignored_files):
 	def is_valid_file (file):
 
 		for igfile in ignored_files:
-			if file == igfile:
+			if re.search(igfile, file):
 				return False
 		return True
 
